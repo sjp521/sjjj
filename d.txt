@@ -1,0 +1,170 @@
+
+package com.huayu.sellbuilding.filter;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebFilter(filterName="Filter1",urlPatterns="/*")
+public class LoginFilter1 implements Filter{
+	//实例化一个静态的集合
+    private static List<String> urls = new ArrayList<>();
+    //静态代码块中向集合中存放所有可以放行的请求或网页地址（不用账号密码即可访问）
+    static {
+        urls.add("jsp/login.jsp");
+        urls.add("/css");
+        urls.add("/img");
+        urls.add("/jquery");
+        urls.add("/login");
+    }
+    
+    @Override
+    public void destroy() {
+        
+    }
+/**
+* 拦截请求，看看用户是否登陆，如果没有登陆，
+* 则跳转回登录页面，否则就放行
+*/
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+
+    	//注意：ServletRequest是HttpServletRequest父接口,因此需要强转
+    	//同样，ServletResponse是HttpServletResponse父接口,因此需要强转
+
+        HttpServletRequest req=(HttpServletRequest)request;
+        HttpServletResponse res=(HttpServletResponse)response; 
+        //得到当前页面所在目录下全名称
+        String urlPattern=req.getServletPath();
+        //得到页面所在服务器的绝对路径
+        String path = req.getRequestURI();
+        //System.out.println(urlPattern);
+        for (String url : urls) {
+            if(url.equals(urlPattern) || path.contains(url)) {
+                chain.doFilter(request, response);
+                //防止重复响应
+                return;
+            }
+        }
+        //如果user为null，表示没有登录
+        if(req.getSession().getAttribute("user")==null) {
+            res.sendRedirect(request.getServletContext().getContextPath()+"/jsp/login.jsp");
+        }else { 
+            //放行
+            chain.doFilter(request, response);
+        }
+    
+}
+
+    @Override
+    public void init(FilterConfig arg0) throws ServletException {
+        
+    }
+
+}
+
+jsp九大内置对象
+
+jsp     		Java里的Servlet
+
+page		Servlet
+
+config		ServletConfig
+
+application 	ServletContext
+
+request		HttpServletRequest	 
+
+response		HttpservletResponse
+
+session		Httpsession 
+
+out
+
+Exception
+
+pageContext可以get其他八个对象的信息
+
+jsp域对象
+
+
+EL表达式:  ${ 取 }
+
+tagilb uri=""导包
+
+<c:forEach items="${ }" var ="stu">相当于加强For
+
+<c:out value="${ }">相当于输出值
+
+eq表示else
+
+
+
+
+
+MVC
+M:模型层 :bean	GoodsDao	GoodsService
+V:视图层 :jsp	html		
+C:控制层 :Servlet
+
+
+
+与Java相关的包
+1、controller包   XXXXervlet
+2、dao	
+3、util
+4、bean
+
+源目录 	resources		.properties	.xml
+
+
+与
+
+user	.jsp	.html
+goods	.jsp
+js
+css
+image
+
+
+
+bean 用来放实体类
+controller 用来放Servlet
+dao 链接数据库
+filter 过滤器
+unit 封装连接数据库
+
+
+
+
+
+
+分页
+定义：
+当前页表示是第几页
+要显示一页有多少条
+总页数 	 总条数%一页几条==0?总页数/总页数+1
+
+
+
+注解
+用来描述数据的数据叫元数据
+注解 用来描述注解的注解叫元注解
+//TODO 表明要做的事情
+元注解:
+@Target(ElementType.)注解使用范围
+@Retentioc(-)保留
+
+
+//注解的产生  将class改为@interface
