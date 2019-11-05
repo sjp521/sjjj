@@ -102,7 +102,7 @@ jsp域对象
 EL表达式:  ${ 取 }
 
 tagilb uri=""导包
-
+//孙敬鹏第二次修改
 <c:forEach items="${ }" var ="stu">相当于加强For
 
 <c:out value="${ }">相当于输出值
