@@ -17,9 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebFilter(filterName="Filter1",urlPatterns="/*")
 public class LoginFilter1 implements Filter{
-	//ÊµÀı»¯Ò»¸ö¾²Ì¬µÄ¼¯ºÏ
+	//å®ä¾‹åŒ–ä¸€ä¸ªé™æ€çš„é›†åˆ
     private static List<String> urls = new ArrayList<>();
-    //¾²Ì¬´úÂë¿éÖĞÏò¼¯ºÏÖĞ´æ·ÅËùÓĞ¿ÉÒÔ·ÅĞĞµÄÇëÇó»òÍøÒ³µØÖ·£¨²»ÓÃÕËºÅÃÜÂë¼´¿É·ÃÎÊ£©
+    //é™æ€ä»£ç å—ä¸­å‘é›†åˆä¸­å­˜æ”¾æ‰€æœ‰å¯ä»¥æ”¾è¡Œçš„è¯·æ±‚æˆ–ç½‘é¡µåœ°å€ï¼ˆä¸ç”¨è´¦å·å¯†ç å³å¯è®¿é—®ï¼‰
     static {
         urls.add("jsp/login.jsp");
         urls.add("/css");
@@ -27,41 +27,41 @@ public class LoginFilter1 implements Filter{
         urls.add("/jquery");
         urls.add("/login");
     }
-    //Ëï¾´ÅôĞŞ¸ÄÁË
+    //å­™æ•¬é¹ä¿®æ”¹äº†
     @Override
     public void destroy() {
         
     }
 /**
-* À¹½ØÇëÇó£¬¿´¿´ÓÃ»§ÊÇ·ñµÇÂ½£¬Èç¹ûÃ»ÓĞµÇÂ½£¬
-* ÔòÌø×ª»ØµÇÂ¼Ò³Ãæ£¬·ñÔò¾Í·ÅĞĞ
+* æ‹¦æˆªè¯·æ±‚ï¼Œçœ‹çœ‹ç”¨æˆ·æ˜¯å¦ç™»é™†ï¼Œå¦‚æœæ²¡æœ‰ç™»é™†ï¼Œ
+* åˆ™è·³è½¬å›ç™»å½•é¡µé¢ï¼Œå¦åˆ™å°±æ”¾è¡Œ
 */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
-    	//×¢Òâ£ºServletRequestÊÇHttpServletRequest¸¸½Ó¿Ú,Òò´ËĞèÒªÇ¿×ª
-    	//Í¬Ñù£¬ServletResponseÊÇHttpServletResponse¸¸½Ó¿Ú,Òò´ËĞèÒªÇ¿×ª
+    	//æ³¨æ„ï¼šServletRequestæ˜¯HttpServletRequestçˆ¶æ¥å£,å› æ­¤éœ€è¦å¼ºè½¬
+    	//åŒæ ·ï¼ŒServletResponseæ˜¯HttpServletResponseçˆ¶æ¥å£,å› æ­¤éœ€è¦å¼ºè½¬
 
         HttpServletRequest req=(HttpServletRequest)request;
         HttpServletResponse res=(HttpServletResponse)response; 
-        //µÃµ½µ±Ç°Ò³ÃæËùÔÚÄ¿Â¼ÏÂÈ«Ãû³Æ
+        //å¾—åˆ°å½“å‰é¡µé¢æ‰€åœ¨ç›®å½•ä¸‹å…¨åç§°
         String urlPattern=req.getServletPath();
-        //µÃµ½Ò³ÃæËùÔÚ·şÎñÆ÷µÄ¾ø¶ÔÂ·¾¶
+        //å¾—åˆ°é¡µé¢æ‰€åœ¨æœåŠ¡å™¨çš„ç»å¯¹è·¯å¾„
         String path = req.getRequestURI();
         //System.out.println(urlPattern);
         for (String url : urls) {
             if(url.equals(urlPattern) || path.contains(url)) {
                 chain.doFilter(request, response);
-                //·ÀÖ¹ÖØ¸´ÏìÓ¦
+                //é˜²æ­¢é‡å¤å“åº”
                 return;
             }
         }
-        //Èç¹ûuserÎªnull£¬±íÊ¾Ã»ÓĞµÇÂ¼
+        //å¦‚æœuserä¸ºnullï¼Œè¡¨ç¤ºæ²¡æœ‰ç™»å½•
         if(req.getSession().getAttribute("user")==null) {
             res.sendRedirect(request.getServletContext().getContextPath()+"/jsp/login.jsp");
         }else { 
-            //·ÅĞĞ
+            //æ”¾è¡Œ
             chain.doFilter(request, response);
         }
     
@@ -74,9 +74,9 @@ public class LoginFilter1 implements Filter{
 
 }
 
-jsp¾Å´óÄÚÖÃ¶ÔÏó
+jspä¹å¤§å†…ç½®å¯¹è±¡
 
-jsp     		JavaÀïµÄServlet
+jsp     		Javaé‡Œçš„Servlet
 
 page		Servlet
 
@@ -94,42 +94,42 @@ out
 
 Exception
 
-pageContext¿ÉÒÔgetÆäËû°Ë¸ö¶ÔÏóµÄĞÅÏ¢
+pageContextå¯ä»¥getå…¶ä»–å…«ä¸ªå¯¹è±¡çš„ä¿¡æ¯
 
-jspÓò¶ÔÏó
+jspåŸŸå¯¹è±¡
 
 
-EL±í´ïÊ½:  ${ È¡ }
+ELè¡¨è¾¾å¼:  ${ å– }
 
-tagilb uri=""µ¼°ü
-//Ëï¾´ÅôµÚ¶ş´ÎĞŞ¸Ä
-<c:forEach items="${ }" var ="stu">Ïàµ±ÓÚ¼ÓÇ¿For
+tagilb uri=""å¯¼åŒ…
+//å­™æ•¬é¹ç¬¬äºŒæ¬¡ä¿®æ”¹
+<c:forEach items="${ }" var ="stu">ç›¸å½“äºåŠ å¼ºFor
 
-<c:out value="${ }">Ïàµ±ÓÚÊä³öÖµ
+<c:out value="${ }">ç›¸å½“äºè¾“å‡ºå€¼
 
-eq±íÊ¾else
+eqè¡¨ç¤ºelse
 
 
 
 
 
 MVC
-M:Ä£ĞÍ²ã :bean	GoodsDao	GoodsService
-V:ÊÓÍ¼²ã :jsp	html		
-C:¿ØÖÆ²ã :Servlet
+M:æ¨¡å‹å±‚ :bean	GoodsDao	GoodsService
+V:è§†å›¾å±‚ :jsp	html		
+C:æ§åˆ¶å±‚ :Servlet
 
 
 
-ÓëJavaÏà¹ØµÄ°ü
-1¡¢controller°ü   XXXXervlet
-2¡¢dao	
-3¡¢util
-4¡¢bean
+ä¸Javaç›¸å…³çš„åŒ…
+1ã€controlleråŒ…   XXXXervlet
+2ã€dao	
+3ã€util
+4ã€bean
 
-Ô´Ä¿Â¼ 	resources		.properties	.xml
+æºç›®å½• 	resources		.properties	.xml
 
 
-Óë
+ä¸
 
 user	.jsp	.html
 goods	.jsp
@@ -139,32 +139,32 @@ image
 
 
 
-bean ÓÃÀ´·ÅÊµÌåÀà
-controller ÓÃÀ´·ÅServlet
-dao Á´½ÓÊı¾İ¿â
-filter ¹ıÂËÆ÷
-unit ·â×°Á¬½ÓÊı¾İ¿â
+bean ç”¨æ¥æ”¾å®ä½“ç±»
+controller ç”¨æ¥æ”¾Servlet
+dao é“¾æ¥æ•°æ®åº“
+filter è¿‡æ»¤å™¨
+unit å°è£…è¿æ¥æ•°æ®åº“
 
 
 
 
 
 
-·ÖÒ³
-¶¨Òå£º
-µ±Ç°Ò³±íÊ¾ÊÇµÚ¼¸Ò³
-ÒªÏÔÊ¾Ò»Ò³ÓĞ¶àÉÙÌõ
-×ÜÒ³Êı 	 ×ÜÌõÊı%Ò»Ò³¼¸Ìõ==0?×ÜÒ³Êı/×ÜÒ³Êı+1
+åˆ†é¡µ
+å®šä¹‰ï¼š
+å½“å‰é¡µè¡¨ç¤ºæ˜¯ç¬¬å‡ é¡µ
+è¦æ˜¾ç¤ºä¸€é¡µæœ‰å¤šå°‘æ¡
+æ€»é¡µæ•° 	 æ€»æ¡æ•°%ä¸€é¡µå‡ æ¡==0?æ€»é¡µæ•°/æ€»é¡µæ•°+1
 
 
 
-×¢½â
-ÓÃÀ´ÃèÊöÊı¾İµÄÊı¾İ½ĞÔªÊı¾İ
-×¢½â ÓÃÀ´ÃèÊö×¢½âµÄ×¢½â½ĞÔª×¢½â
-//TODO ±íÃ÷Òª×öµÄÊÂÇé
-Ôª×¢½â:
-@Target(ElementType.)×¢½âÊ¹ÓÃ·¶Î§
-@Retentioc(-)±£Áô
+æ³¨è§£
+ç”¨æ¥æè¿°æ•°æ®çš„æ•°æ®å«å…ƒæ•°æ®
+æ³¨è§£ ç”¨æ¥æè¿°æ³¨è§£çš„æ³¨è§£å«å…ƒæ³¨è§£
+//TODO è¡¨æ˜è¦åšçš„äº‹æƒ…
+å…ƒæ³¨è§£:
+@Target(ElementType.)æ³¨è§£ä½¿ç”¨èŒƒå›´
+@Retentioc(-)ä¿ç•™
 
 
-//×¢½âµÄ²úÉú  ½«class¸ÄÎª@interface
+//æ³¨è§£çš„äº§ç”Ÿ  å°†classæ”¹ä¸º@interface
