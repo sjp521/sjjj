@@ -27,7 +27,7 @@ public class LoginFilter1 implements Filter{
         urls.add("/jquery");
         urls.add("/login");
     }
-    
+    //Ëï¾´ÅôĞŞ¸ÄÁË
     @Override
     public void destroy() {
         
